@@ -2,6 +2,7 @@
 
 import hashlib
 import yaml
+import pymongo
 
 from scrapy import signals
 
@@ -9,7 +10,12 @@ from scrapy import signals
 class SaveStatistics(object):
     def __init__(self, crawler):
         self.stats = crawler.stats
-        self.MONGO = crawler.settings.get('MONGO')
+        self.MONGO = pymongo.MongoClient(
+            host=crawler.settings['MONGO_HOST'],
+            port=crawler.settings['MONGO_PORT']
+        )
+        db = self.MONGO[crawler.settings['MONGO_DB']]
+        self.statistics = db[crawler.settings['MONGO_STATISTICS']]
 
     @classmethod
     def from_crawler(cls, crawler, *args, **kwargs):
@@ -34,4 +40,5 @@ class SaveStatistics(object):
             info['scraped'] = scraped_num
             info['dropped'] = dumppy_stats.get('item_dropped_count', 0)
             info['errors'] = dumppy_stats.get('log_count/ERROR', 0)
-            self.MONGO.statistics.insert_one(info)
+            self.statistics.insert_one(info)
+        self.MONGO.close()

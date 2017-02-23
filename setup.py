@@ -11,7 +11,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='scrapy-save-statistics',
-    version='0.1',
+    version='0.2',
     description='Scrapy Save Statistics: Save statistics extension for Scrapy',
     long_description=long_description,
     url='https://github.com/light4/scrapy-save-statistics',

@@ -31,23 +31,10 @@ Mongodb settings for save statistics, need a *statistics* database.
 
 ::
 
-    class MyMongo(object):
-        def __init__(self, host="127.0.0.1", port=27017, db="myspider"):
-            self.connection = pymongo.MongoClient(
-                host=host,
-                port=port
-            )
-            self.db = self.connection[db]
-            data = [
-                "bot",
-                "test",
-                "statistics",
-            ]
-            for item in data:
-                setattr(self, item, self.db[item])
-
-
-    MONGO = MyMongo()
+    MONGO_HOST = "127.0.0.1"
+    MONGO_PORT = 27017
+    MONGO_DB = "myspider"
+    MONGO_STATISTICS = "statistics"
 
     EXTENSIONS = {
         'scrapy_save_statistics.SaveStatistics': 100,
